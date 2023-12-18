@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="root" style="text-align: center;"></div>
+    <script type="text/babel">
+        let score =0;
+        let wicket = 0;
+        let hit =0;
+        let arr =[];
+        let input = React.createRef();
+
+        function add(num){
+              hit = num;
+              ram.render(<App />)
+        }
+        function addw(){
+            hit = "w";
+            ram.render(<App />)
+        }
+         function handleref(event){
+           event.preventDefault();
+           if(hit=="w"){
+            wicket += 1;
+           }
+           else{
+            score += hit;
+           }
+           arr.unshift(
+            <span>{hit}{", "}{input.current.value}</span>
+         )
+         hit = 0;
+         input.current.value ="";
+         ram.render(<App />)
+         }
+         
+        const Form = () => (
+            <form onSubmit={handleref}>
+                <input value = {hit}/>
+                <input ref= {input} placeholder="Add the comment"/>
+                <button>Submit</button>
+            </form>
+        )
+        const Btn = () => (
+            <div>
+                <button onClick={()=>add(0)}>0</button>
+                <button onClick={()=>add(1)}>1</button>
+                <button onClick={()=>add(2)}>2</button>
+                <button onClick={()=>add(3)}>3</button>
+                <button onClick={()=>add(4)}>4</button>
+                <button onClick={()=>add(6)}>6</button>
+                <button onClick={addw}>Wicket</button>
+            </div>
+        )
+        const App = () => (
+            <>
+            <h1>Score Keeper</h1>
+            <h1>Score : {score}/{wicket}</h1>
+            <Btn />
+            <br/>
+            <Form />
+            {arr.map((num, index)=>(<p key={index}>{num}</p>))}
+            </>
+        )
+        const ram =ReactDOM.createRoot(document.getElementById("root"));
+        ram.render(<App />);
+    </script>
+</body>
+</html>
